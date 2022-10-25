@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_google">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="kr.co.js.trend_news.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_google"
+        android:name="kr.co.js.trend_news.ui.google.GoogleFragment"
+        android:label="@string/tab_title_google"
+        tools:layout="@layout/fragment_google" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="kr.co.js.trend_news.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_naver"
+        android:name="kr.co.js.trend_news.ui.naver.NaverFragment"
+        android:label="@string/tab_title_naver"
+        tools:layout="@layout/fragment_naver" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="kr.co.js.trend_news.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_settings"
+        android:name="kr.co.js.trend_news.ui.settings.SettingsFragment"
+        android:label="@string/tab_title_setting"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

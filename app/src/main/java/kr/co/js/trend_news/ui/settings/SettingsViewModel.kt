@@ -1,13 +1,13 @@
-package kr.co.js.trend_news.ui.notifications
+package kr.co.js.trend_news.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class SettingsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "This is settings Fragment"
     }
     val text: LiveData<String> = _text
 }

@@ -1,6 +1,17 @@
 <resources>
+    <!-- 앱 공통 -->
     <string name="app_name">Trend-News</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
+
+    <!-- 구글 트렌드 탭 -->
+    <string name="tab_title_google">Google</string>
+
+
+    <!-- 네이버 포스트 탭 -->
+    <string name="tab_title_naver">Naver</string>
+
+
+    <!-- 설정 -->
+    <string name="tab_title_setting">Settings</string>
+
 </resources>

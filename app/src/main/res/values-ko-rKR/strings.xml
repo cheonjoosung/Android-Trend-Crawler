@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 앱 공통 -->
+    <string name="app_name">Trend-News</string>
+
+
+    <!-- 구글 트렌드 탭 -->
+    <string name="tab_title_google">구글</string>
+
+
+    <!-- 네이버 포스트 탭 -->
+    <string name="tab_title_naver">네이버</string>
+
+
+    <!-- 설정 -->
+    <string name="tab_title_setting">설정</string>
+
+</resources>

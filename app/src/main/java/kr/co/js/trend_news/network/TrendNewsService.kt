@@ -11,9 +11,7 @@ import retrofit2.http.Query
 interface TrendNewsService {
 
     //TODO : response json 취약성 보호를 위해 ")]}' 포함되어서 파싱이 안되는 문제 해결 필요
-    @Headers(
-        "content-type: application/json; charset=UTF-8"
-    )
+
     @GET("dailytrends")
     suspend fun getGoogleTrendNews(
         @Query("hl") hl:String = "ko",

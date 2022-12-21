@@ -19,7 +19,7 @@ class GoogleViewModel(
         val response = repository.getGoogleTrendingNews(date)
 
         if (response.isSuccessful) {
-            Log.e("CJS", "Success")
+            Log.e("CJS", "Success data is ${response.body().toString()}")
         } else {
             Log.e("CJS", "Failed")
 

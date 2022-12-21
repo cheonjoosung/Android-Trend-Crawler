@@ -1,5 +1,6 @@
 package kr.co.js.trend_news.network
 
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,12 +12,17 @@ object GoogleTrendApiRequestFactory {
 
     val retrofit: TrendNewsService = Retrofit.Builder()
         .baseUrl(basedUrl)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(
+            GsonBuilder().setLenient().create()
+        ))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(
-            OkHttpClient.Builder().addInterceptor(
-                HttpLoggingInterceptor().apply { this.level = HttpLoggingInterceptor.Level.BODY }
+            OkHttpClient.Builder()
+                .addInterceptor(
+                    HttpLoggingInterceptor().apply { this.level = HttpLoggingInterceptor.Level.BODY }
+
             ).build())
         .build()
         .create(TrendNewsService::class.java)
+
 }

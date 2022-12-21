@@ -2,6 +2,11 @@ package kr.co.js.trend_news.model
 
 import com.google.gson.annotations.SerializedName
 
+data class GoogleResult(
+    @SerializedName("default")
+    val default: TrendResults
+)
+
 data class TrendResults(
     @SerializedName("endDateForNextRequest") //nextKey
     val endDateForNextRequest: String,

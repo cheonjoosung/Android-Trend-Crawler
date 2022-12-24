@@ -35,9 +35,11 @@ class TrendAdapter(
         binder.tvTitle.text = item.title.query
         binder.tvViewCount.text = item.formattedTraffic
 
-        Glide.with(holder.itemView.context)
-            .load(item.image.imageUrl)
-            .into(binder.ivThumbnail)
+        if (item.image != null && item.image.imageUrl != null) {
+            Glide.with(holder.itemView.context)
+                .load(item.image.imageUrl)
+                .into(binder.ivThumbnail)
+        }
 
         binder.llTrendItem.click {
             trendClickListener?.invoke(item)

@@ -10,6 +10,8 @@ operator fun <T> MutableLiveData<MutableList<T>>.plusAssign(item: T) {
     this.value = value
 }
 
+// 중복클릭 방지
 fun View.click(click: (View) -> Unit) {
-    setOnClickListener { click(it) }
+    val listener = DuplicateClickListener { click(it) }
+    setOnClickListener(listener)
 }

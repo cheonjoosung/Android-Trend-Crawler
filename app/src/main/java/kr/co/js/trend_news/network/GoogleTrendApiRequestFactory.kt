@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object GoogleTrendApiRequestFactory {
-    private const val basedUrl = "https://trends.google.co.kr/trends/api/"
+    private const val basedUrl = "https://trends.google.co.kr/"
 
     val retrofit: TrendNewsService = Retrofit.Builder()
         .baseUrl(basedUrl)
@@ -19,7 +19,6 @@ object GoogleTrendApiRequestFactory {
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(
             OkHttpClient.Builder()
-                .addInterceptor(ResponseInterceptor())
                 .addInterceptor(
                     HttpLoggingInterceptor().apply {
                         this.level = HttpLoggingInterceptor.Level.BODY
@@ -28,14 +27,4 @@ object GoogleTrendApiRequestFactory {
         )
         .build()
         .create(TrendNewsService::class.java)
-}
-
-class ResponseInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val response = chain.proceed(chain.request())
-
-        return response.newBuilder()
-            .addHeader("Content-Type", "application/json; charset=utf-8")
-            .build()
-    }
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.js.trend_news.databinding.ItemDayTrendsBinding
+import kr.co.js.trend_news.model.TrendingSearches
 import kr.co.js.trend_news.model.TrendingSearchesDays
 
 /**
@@ -12,6 +13,8 @@ import kr.co.js.trend_news.model.TrendingSearchesDays
 class DayTrendsAdapter(
     private val dayTrendsList: MutableList<TrendingSearchesDays>,
 ) : RecyclerView.Adapter<DayTrendsAdapter.DaysTrendsViewHolder>() {
+
+    var trendTransferListener: ((TrendingSearches) -> Unit)? = null
 
     class DaysTrendsViewHolder(val binding: ItemDayTrendsBinding) :
         RecyclerView.ViewHolder(binding.root) {}
@@ -28,6 +31,12 @@ class DayTrendsAdapter(
         val item = dayTrendsList[position]
 
         binder.tvDate.text = item.formattedDate
+
+        binder.rvDayTrends.adapter = TrendAdapter(item.trendingSearches.toMutableList()).apply {
+            trendClickListener = {
+                trendTransferListener?.invoke(it)
+            }
+        }
     }
 
     override fun getItemCount(): Int = dayTrendsList.size

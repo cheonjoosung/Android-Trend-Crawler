@@ -1,6 +1,6 @@
 package kr.co.js.trend_news.network
 
-import okhttp3.ResponseBody
+import kr.co.js.trend_news.model.GoogleResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,5 +16,5 @@ interface TrendNewsService {
         @Query("ed") ed:String,
         @Query("geo") geo:String = "KR",
         @Query("ns") ns:String = "15",
-    ): Response<ResponseBody>
+    ): Response<GoogleResult>
 }

@@ -41,8 +41,8 @@ data class TrendingSearches(
     @SerializedName("image")
     val image: TrendImage,
 
-    @SerializedName("relatedQueries")
-    val relatedQueries: String,
+    /*@SerializedName("relatedQueries")
+    val relatedQueries: List<Query>,*/
 
     @SerializedName("shareUrl")
     val shareUrl: String,

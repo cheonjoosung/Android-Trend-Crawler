@@ -20,8 +20,8 @@ data class TrendResults(
 
 // day 트렌딩 목록
 data class TrendingSearchesDays(
-    @SerializedName("data")
-    val data: String,
+    @SerializedName("date")
+    val date: String,
 
     @SerializedName("formattedDate")
     val formattedDate: String,

@@ -13,5 +13,6 @@
 
     <!-- 설정 -->
     <string name="tab_title_setting">Settings</string>
+    <string name="thumbnail">thumbnail</string>
 
 </resources>

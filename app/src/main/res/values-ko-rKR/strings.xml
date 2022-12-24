@@ -15,5 +15,6 @@
 
     <!-- 설정 -->
     <string name="tab_title_setting">설정</string>
+    <string name="thumbnail">썸네일</string>
 
 </resources>

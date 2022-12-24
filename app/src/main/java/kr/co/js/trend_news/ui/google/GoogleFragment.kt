@@ -5,10 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import kr.co.js.common.click
 import kr.co.js.trend_news.databinding.FragmentGoogleBinding
 import kr.co.js.trend_news.model.ViewModelFactory
 import java.text.SimpleDateFormat
@@ -33,9 +32,16 @@ class GoogleFragment : Fragment() {
     ): View {
         _binding = FragmentGoogleBinding.inflate(inflater, container, false)
 
-        binding.btnData.setOnClickListener {
+        binding.btnData.click {
             Log.e("CJS", "Time is ${getCurrentYYYYMMDD()}")
             viewModel.getGoogleTrendingNews(getCurrentYYYYMMDD())
+        }
+
+        viewModel.trendList.observe(viewLifecycleOwner) {
+            Log.e("CJS", "Data changed")
+            for (item in it) {
+                Log.e("CJS", "Data OK ${item.trendingSearches.size}")
+            }
         }
 
 

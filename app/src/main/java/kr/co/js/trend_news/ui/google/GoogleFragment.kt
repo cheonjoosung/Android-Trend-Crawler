@@ -3,7 +3,6 @@ package kr.co.js.trend_news.ui.google
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +20,6 @@ class GoogleFragment : Fragment() {
 
     private var _binding: FragmentGoogleBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val viewModel: GoogleViewModel by viewModels {
@@ -42,15 +39,17 @@ class GoogleFragment : Fragment() {
 
             binding.rvTrendNews.adapter = DayTrendsAdapter(it).apply {
                 trendTransferListener = { trendItem ->
-                    Log.e("CJS", "clicked $trendItem")
-                    val bottomDialogFragment = BottomDialogFragment(trendItem.articles).apply {
-                        articleTransferListener = { article ->
-                            this.dismiss()
 
-                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
-                            startActivity(browserIntent)
+                    val bottomDialogFragment =
+                        BottomDialogFragment(trendItem.title.query, trendItem.articles).apply {
+                            articleTransferListener = { article ->
+                                this.dismiss()
+
+                                val browserIntent =
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
+                                startActivity(browserIntent)
+                            }
                         }
-                    }
 
                     bottomDialogFragment.show(childFragmentManager, "TAG")
                 }

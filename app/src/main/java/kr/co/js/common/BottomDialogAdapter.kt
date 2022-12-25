@@ -32,9 +32,9 @@ class BottomDialogAdapter(
         binder.tvTitle.text = item.title
         binder.tvTimeAgo.text = item.timeAgo
 
-        if (item.image != null && item.image.imageUrl != null) {
+        item.image?.imageUrl?.let {
             Glide.with(holder.itemView.context)
-                .load(item.image.imageUrl)
+                .load(it)
                 .into(binder.ivThumbnail)
         }
 

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class GoogleResult(
     @SerializedName("default")
-    val default: TrendResults
+    val default: TrendResults,
 )
 
 data class TrendResults(
@@ -15,7 +15,7 @@ data class TrendResults(
     val rssFeedPageUrl: String,
 
     @SerializedName("trendingSearchesDays")
-    val trendingSearchesDays: List<TrendingSearchesDays>
+    val trendingSearchesDays: List<TrendingSearchesDays>,
 )
 
 // day 트렌딩 목록
@@ -27,7 +27,7 @@ data class TrendingSearchesDays(
     val formattedDate: String,
 
     @SerializedName("trendingSearches")
-    val trendingSearches: List<TrendingSearches>
+    val trendingSearches: List<TrendingSearches>,
 )
 
 // 트렌딩 뉴스 아이템
@@ -39,7 +39,7 @@ data class TrendingSearches(
     val formattedTraffic: String,
 
     @SerializedName("image")
-    val image: TrendImage,
+    val image: TrendImage?,
 
     /*@SerializedName("relatedQueries")
     val relatedQueries: List<Query>,*/
@@ -48,7 +48,7 @@ data class TrendingSearches(
     val shareUrl: String,
 
     @SerializedName("title")
-    val title: TrendTitle
+    val title: TrendTitle,
 )
 
 // 기사 아이템
@@ -57,7 +57,7 @@ data class Article(
     val title: String,
 
     @SerializedName("image")
-    val image: TrendImage,
+    val image: TrendImage?,
 
     @SerializedName("snippet")
     val snippet: String,
@@ -69,7 +69,7 @@ data class Article(
     val timeAgo: String,
 
     @SerializedName("url")
-    val url: String
+    val url: String,
 )
 
 data class TrendImage(
@@ -80,7 +80,7 @@ data class TrendImage(
     val newsUrl: String,
 
     @SerializedName("source")
-    val source: String
+    val source: String,
 )
 
 data class TrendTitle(
@@ -88,5 +88,5 @@ data class TrendTitle(
     val query: String,
 
     @SerializedName("exploreLink")
-    val exploreLink: String
+    val exploreLink: String,
 )

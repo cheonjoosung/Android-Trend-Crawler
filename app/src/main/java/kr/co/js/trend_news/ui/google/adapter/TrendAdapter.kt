@@ -35,9 +35,9 @@ class TrendAdapter(
         binder.tvTitle.text = item.title.query
         binder.tvViewCount.text = item.formattedTraffic
 
-        if (item.image != null && item.image.imageUrl != null) {
+        item.image?.imageUrl?.let {
             Glide.with(holder.itemView.context)
-                .load(item.image.imageUrl)
+                .load(it)
                 .into(binder.ivThumbnail)
         }
 

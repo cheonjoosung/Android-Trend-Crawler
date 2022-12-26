@@ -26,10 +26,7 @@ class GoogleViewModel(
 
                 response.body()?.default?.let {
                     nextKey = it.endDateForNextRequest
-
-                    val value = _trendList.value ?: mutableListOf()
-                    value.addAll(it.trendingSearchesDays)
-                    _trendList.postValue(value)
+                    _trendList.postValue(it.trendingSearchesDays.toMutableList())
                 }
 
             } else {

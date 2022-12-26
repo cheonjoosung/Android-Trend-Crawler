@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import kr.co.js.common.BottomDialogFragment
 import kr.co.js.trend_news.databinding.FragmentGoogleBinding
 import kr.co.js.trend_news.model.ViewModelFactory
@@ -36,7 +37,6 @@ class GoogleFragment : Fragment() {
         viewModel.getGoogleTrendingNews(getCurrentYYYYMMDD())
 
         viewModel.trendList.observe(viewLifecycleOwner) {
-
             binding.rvTrendNews.adapter = DayTrendsAdapter(it).apply {
                 trendTransferListener = { trendItem ->
 
@@ -54,7 +54,18 @@ class GoogleFragment : Fragment() {
                     bottomDialogFragment.show(childFragmentManager, "TAG")
                 }
             }
+
         }
+
+        binding.rvTrendNews.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    viewModel.getGoogleTrendingNews(getCurrentYYYYMMDD(), true)
+                }
+            }
+        })
 
 
         return binding.root

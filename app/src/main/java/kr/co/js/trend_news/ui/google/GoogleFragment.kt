@@ -3,6 +3,7 @@ package kr.co.js.trend_news.ui.google
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,34 +28,49 @@ class GoogleFragment : Fragment() {
         ViewModelFactory(requireContext())
     }
 
+    lateinit var adapter: DayTrendsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        Log.e("CJS", "onCreateView")
         _binding = FragmentGoogleBinding.inflate(inflater, container, false)
 
-        viewModel.getGoogleTrendingNews(getCurrentYYYYMMDD())
 
-        viewModel.trendList.observe(viewLifecycleOwner) {
-            binding.rvTrendNews.adapter = DayTrendsAdapter(it).apply {
-                trendTransferListener = { trendItem ->
+        if (::adapter.isInitialized) {
+            Log.e("CJS", "init ${viewModel.trendList.value?.size}")
+            binding.rvTrendNews.adapter = adapter
+        } else {
+            viewModel.getGoogleTrendingNews(getCurrentYYYYMMDD())
 
-                    val bottomDialogFragment =
-                        BottomDialogFragment(trendItem.title.query, trendItem.articles).apply {
-                            articleTransferListener = { article ->
-                                this.dismiss()
+            viewModel.trendList.observe(viewLifecycleOwner) {
+                adapter = DayTrendsAdapter(it).apply {
+                    trendTransferListener = { trendItem ->
 
-                                val browserIntent =
-                                    Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
-                                startActivity(browserIntent)
+                        val bottomDialogFragment =
+                            BottomDialogFragment(trendItem.title.query, trendItem.articles).apply {
+                                articleTransferListener = { article ->
+                                    this.dismiss()
+
+                                    val browserIntent =
+                                        Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
+                                    startActivity(browserIntent)
+                                }
                             }
-                        }
 
-                    bottomDialogFragment.show(childFragmentManager, "TAG")
+                        bottomDialogFragment.show(childFragmentManager, "TAG")
+                    }
                 }
+                binding.rvTrendNews.adapter = adapter
             }
 
+        }
+
+        viewModel.moreTrendList.observe(viewLifecycleOwner) {
+            Log.e("CJS", "moreTrendList Changed()")
+            adapter.addMoreTendList(it)
         }
 
         binding.rvTrendNews.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -62,7 +78,8 @@ class GoogleFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.getGoogleTrendingNews(getCurrentYYYYMMDD(), true)
+                    Log.e("CJS", "get More TrendList")
+                    viewModel.getGoogleMoreTrendingNews()
                 }
             }
         })

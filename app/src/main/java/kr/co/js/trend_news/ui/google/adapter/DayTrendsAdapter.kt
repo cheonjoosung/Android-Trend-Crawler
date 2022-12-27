@@ -40,4 +40,10 @@ class DayTrendsAdapter(
     }
 
     override fun getItemCount(): Int = dayTrendsList.size
+
+    fun addMoreTendList(moreTrendList: MutableList<TrendingSearchesDays>) {
+        val size = dayTrendsList.size
+        dayTrendsList.addAll(moreTrendList)
+        notifyItemRangeInserted(size, moreTrendList.size)
+    }
 }

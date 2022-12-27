@@ -15,18 +15,40 @@ class GoogleViewModel(
     private val _trendList = MutableLiveData<MutableList<TrendingSearchesDays>>()
     val trendList: MutableLiveData<MutableList<TrendingSearchesDays>> = _trendList
 
+    private val _moreTrendList = MutableLiveData<MutableList<TrendingSearchesDays>>()
+    val moreTrendList: MutableLiveData<MutableList<TrendingSearchesDays>> = _moreTrendList
+
     private var nextKey = ""
 
-    fun getGoogleTrendingNews(date: String, isMoreTrendingNews: Boolean = false) =
+    fun getGoogleTrendingNews(date: String) =
         viewModelScope.launch {
             val response =
-                repository.getGoogleTrendingNews(if (isMoreTrendingNews) nextKey else date)
+                repository.getGoogleTrendingNews(date)
 
             if (response.isSuccessful) {
 
                 response.body()?.default?.let {
                     nextKey = it.endDateForNextRequest
                     _trendList.postValue(it.trendingSearchesDays.toMutableList())
+                }
+
+            } else {
+                Log.e("CJS", "Failed")
+            }
+        }
+
+    fun getGoogleMoreTrendingNews() =
+        viewModelScope.launch {
+            if (nextKey.isEmpty()) return@launch
+
+            val response =
+                repository.getGoogleTrendingNews(nextKey)
+
+            if (response.isSuccessful) {
+
+                response.body()?.default?.let {
+                    nextKey = it.endDateForNextRequest
+                    _moreTrendList.postValue(it.trendingSearchesDays.toMutableList())
                 }
 
             } else {

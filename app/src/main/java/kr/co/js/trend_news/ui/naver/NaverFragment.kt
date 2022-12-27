@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import kr.co.js.common.click
 import kr.co.js.trend_news.databinding.FragmentNaverBinding
+import kr.co.js.trend_news.repository.GoogleRepository
+import kr.co.js.trend_news.repository.NaverRepository
 
 class NaverFragment : Fragment() {
 
@@ -28,10 +31,10 @@ class NaverFragment : Fragment() {
         _binding = FragmentNaverBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.textDashboard.click {
+
         }
+
         return root
     }
 

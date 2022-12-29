@@ -49,6 +49,6 @@
         android:layout_height="64dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/thumbnail"
-        tools:src="@drawable/ic_home_black_24dp" />
+        android:src="@drawable/ic_baseline_trending_up_24" />
 
 </LinearLayout>

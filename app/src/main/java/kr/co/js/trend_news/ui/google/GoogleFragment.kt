@@ -3,7 +3,6 @@ package kr.co.js.trend_news.ui.google
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,12 +34,10 @@ class GoogleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        Log.e("CJS", "onCreateView")
         _binding = FragmentGoogleBinding.inflate(inflater, container, false)
 
 
         if (::adapter.isInitialized) {
-            Log.e("CJS", "init ${viewModel.trendList.value?.size}")
             binding.rvTrendNews.adapter = adapter
         } else {
             viewModel.getGoogleTrendingNews(getCurrentYYYYMMDD())
@@ -69,7 +66,6 @@ class GoogleFragment : Fragment() {
         }
 
         viewModel.moreTrendList.observe(viewLifecycleOwner) {
-            Log.e("CJS", "moreTrendList Changed()")
             adapter.addMoreTendList(it)
         }
 
@@ -78,7 +74,6 @@ class GoogleFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (!recyclerView.canScrollVertically(1)) {
-                    Log.e("CJS", "get More TrendList")
                     viewModel.getGoogleMoreTrendingNews()
                 }
             }

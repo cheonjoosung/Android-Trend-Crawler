@@ -5,11 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kr.co.js.trend_news.databinding.FragmentNaverBinding
 import kr.co.js.trend_news.model.ViewModelFactory
-import kr.co.js.trend_news.ui.naver.adapter.RankCategoryAdapter
 
 class NaverFragment : Fragment() {
 
@@ -24,18 +25,39 @@ class NaverFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
 
         _binding = FragmentNaverBinding.inflate(inflater, container, false)
 
-        binding.rvRankCategory.adapter = RankCategoryAdapter(viewModel.getCategoryList()).apply {
-            rankCategoryClickListener = { category ->
-                Log.e("CJS", "Clicked $category")
+        binding.spinnerRankCategory.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_spinner_item,
+            viewModel.getCategoryList())
+
+        binding.spinnerRankCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                getNaverRank()
             }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
         }
 
+        binding.rgOrderTime.setOnCheckedChangeListener { radioGroup, i ->
+            getNaverRank()
+        }
+
+
+
         return binding.root
+    }
+
+    fun getNaverRank() {
+        val rankCategoryType = binding.spinnerRankCategory.selectedItemId
+        val orderTime = if (binding.rbRealTime.isChecked) "REAL_TIME" else "WEEKLY"
+
+        viewModel.getNaverRank(rankCategoryType.toString(), orderTime)
     }
 
     override fun onDestroyView() {

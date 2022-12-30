@@ -6,16 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".ui.naver.NaverFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_rank_category"
-        android:layout_width="match_parent"
+    <!--    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_rank_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_rank_category" />-->
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_rank_category"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rg_order_time"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_rank_category" />
+        android:orientation="horizontal"
+        android:checkedButton="@id/rb_real_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rb_real_time"
+            android:layout_marginEnd="8dp"
+            android:text="REAL_TIME"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/rb_weekly"
+            android:text="WEEKLY"
+            android:layout_marginEnd="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

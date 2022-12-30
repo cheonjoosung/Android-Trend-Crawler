@@ -24,7 +24,7 @@ class GoogleFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: GoogleViewModel by viewModels {
-        ViewModelFactory(requireContext())
+        ViewModelFactory()
     }
 
     lateinit var adapter: DayTrendsAdapter

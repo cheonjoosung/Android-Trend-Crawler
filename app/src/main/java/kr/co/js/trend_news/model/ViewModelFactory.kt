@@ -2,7 +2,7 @@ package kr.co.js.trend_news.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kr.co.js.trend_news.network.GoogleRemoteDataSource
+import kr.co.js.trend_news.network.RemoteDataSource
 import kr.co.js.trend_news.repository.GoogleRepository
 import kr.co.js.trend_news.repository.NaverRepository
 import kr.co.js.trend_news.ui.google.GoogleViewModel
@@ -15,13 +15,13 @@ class ViewModelFactory : ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(GoogleViewModel::class.java)) {
             return GoogleViewModel(
                 GoogleRepository(
-                    remoteDataSource = GoogleRemoteDataSource()
+                    remoteDataSource = RemoteDataSource()
                 )
             ) as T
         } else if (modelClass.isAssignableFrom(NaverViewModel::class.java)) {
             return NaverViewModel(
                 NaverRepository(
-                    remoteDataSource = GoogleRemoteDataSource()
+                    remoteDataSource = RemoteDataSource()
                 )
             ) as T
         }

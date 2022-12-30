@@ -1,7 +1,6 @@
 package kr.co.js.trend_news.ui.naver
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,7 @@ class NaverFragment : Fragment() {
 
         }
 
-        binding.rgOrderTime.setOnCheckedChangeListener { radioGroup, i ->
+        binding.rgOrderTime.setOnCheckedChangeListener { _ , _ ->
             getNaverRank()
         }
 

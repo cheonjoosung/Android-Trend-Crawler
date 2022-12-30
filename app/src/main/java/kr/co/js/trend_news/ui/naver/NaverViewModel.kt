@@ -1,6 +1,8 @@
 package kr.co.js.trend_news.ui.naver
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import kr.co.js.trend_news.repository.NaverRepository
 
 class NaverViewModel(
@@ -22,7 +24,9 @@ class NaverViewModel(
 
     fun getCategoryList() = rankCategories
 
-    fun getNaverRank(rankCategoryType: String, orderTime: String) {
-
+    fun getNaverRank(rankCategoryType: String, orderTime: String, rookieType: String = "ALL") {
+        viewModelScope.launch {
+            repository.getNaverRank(rankCategoryType, orderTime, 0)
+        }
     }
 }

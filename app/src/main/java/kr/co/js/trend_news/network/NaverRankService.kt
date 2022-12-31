@@ -1,6 +1,6 @@
 package kr.co.js.trend_news.network
 
-import kr.co.js.trend_news.model.NaverRankModel
+import kr.co.js.trend_news.model.ResponseNaverRankModel
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -16,5 +16,5 @@ interface NaverRankService {
         @Field("totalCount") totalCount: Int = -1,
         @Field("fromNo") fromNo: Int = 0,
         //@Body model: NaverRequestModel
-    ): Response<NaverRankModel>
+    ): Response<ResponseNaverRankModel>
 }

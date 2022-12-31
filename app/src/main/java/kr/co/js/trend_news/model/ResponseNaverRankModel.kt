@@ -2,7 +2,7 @@ package kr.co.js.trend_news.model
 
 import com.google.gson.annotations.SerializedName
 
-data class NaverRankModel(
+data class ResponseNaverRankModel(
     @SerializedName("resultCode")
     val resultCode: String,
 

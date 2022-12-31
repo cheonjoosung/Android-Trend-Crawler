@@ -1,7 +1,7 @@
 package kr.co.js.trend_news.network
 
 import kr.co.js.trend_news.model.GoogleResult
-import kr.co.js.trend_news.model.NaverRankModel
+import kr.co.js.trend_news.model.ResponseNaverRankModel
 import retrofit2.Response
 
 class RemoteDataSource {
@@ -14,7 +14,7 @@ class RemoteDataSource {
         rankingCategory: String,
         orderType: String,
         fromNo: Int,
-    ): Response<NaverRankModel> {
+    ): Response<ResponseNaverRankModel> {
         //return NaverRankApiRequestFactory.retrofit.getNaverRank(NaverRequestModel(rankingCategory, "ALL", orderType, true, -1, fromNo))
         return NaverRankApiRequestFactory.retrofit.getNaverRank(rankingCategory = rankingCategory, orderType = orderType, fromNo = fromNo)
     }

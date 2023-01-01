@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import kr.co.js.trend_news.databinding.FragmentNaverBinding
 import kr.co.js.trend_news.model.ViewModelFactory
 import kr.co.js.trend_news.ui.naver.adapter.NaverRankAdapter
@@ -66,8 +67,23 @@ class NaverFragment : Fragment() {
             }
         }
 
+        viewModel.moreNaverList.observe(viewLifecycleOwner) {
+            if (binding.rvNaverRank.adapter != null) {
+                (binding.rvNaverRank.adapter as NaverRankAdapter).addMoreNaverRankList(it)
+            }
+        }
+
+        binding.rvNaverRank.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    viewModel.getMoreNaverRank()
+                }
+            }
+        })
+
         if (!viewModel.isInitMode) {
-            Log.e("CJS", "checked ${viewModel.isInitMode}")
             viewModel.getNaverRank(
                 selectedCategoryNumber.toString(),
                 if (binding.rbRealTime.isChecked) "REAL_TIME" else "WEEKLY",

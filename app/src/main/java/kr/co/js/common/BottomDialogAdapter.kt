@@ -29,7 +29,7 @@ class BottomDialogAdapter(
         val binder = holder.binding
         val item = itemList[position]
 
-        binder.tvTitle.text = item.title
+        binder.tvTitle.text = item.title.replace("&quot;", "\"").replace("&#39;", "\'")
         binder.tvTimeAgo.text = item.timeAgo
 
         item.image?.imageUrl?.let {

@@ -1,6 +1,8 @@
 package kr.co.js.trend_news.ui.naver
 
 import android.R
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,8 +26,6 @@ class NaverFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    lateinit var adapter: NaverRankAdapter
-
     var selectedCategoryNumber = 0
 
     override fun onCreateView(
@@ -43,6 +43,14 @@ class NaverFragment : Fragment() {
         binding.spinnerRankCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedCategoryNumber = p2
+
+                if (viewModel.initChecked) {
+                    viewModel.getNaverRank(
+                        selectedCategoryNumber.toString(),
+                        if (binding.rbRealTime.isChecked) "REAL_TIME" else "WEEKLY"
+                    )
+                }
+                viewModel.initChecked = true
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -51,13 +59,15 @@ class NaverFragment : Fragment() {
 
         viewModel.naverRankList.observe(viewLifecycleOwner) {
             binding.rvNaverRank.adapter = NaverRankAdapter(it).apply {
-                naverRankClickListener = {
-
+                naverRankClickListener = { naverRankModel ->
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(naverRankModel.href))
+                    startActivity(intent)
                 }
             }
         }
 
         if (!viewModel.isInitMode) {
+            Log.e("CJS", "checked ${viewModel.isInitMode}")
             viewModel.getNaverRank(
                 selectedCategoryNumber.toString(),
                 if (binding.rbRealTime.isChecked) "REAL_TIME" else "WEEKLY",
@@ -66,7 +76,6 @@ class NaverFragment : Fragment() {
         }
 
         binding.rgOrderTime.setOnCheckedChangeListener { _ , _ ->
-            Log.e("CJS", "니고?")
             viewModel.getNaverRank(
                 selectedCategoryNumber.toString(),
                 if (binding.rbRealTime.isChecked) "REAL_TIME" else "WEEKLY"
@@ -78,6 +87,7 @@ class NaverFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.initChecked = false
         _binding = null
     }
 }

@@ -29,14 +29,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="REAL_TIME" />
+            android:text="@string/real_time" />
 
         <RadioButton
             android:id="@+id/rb_weekly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:text="WEEKLY" />
+            android:text="@string/weekly" />
 
     </RadioGroup>
 
@@ -49,6 +49,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/rg_order_time" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

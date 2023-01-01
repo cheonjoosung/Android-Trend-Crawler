@@ -16,12 +16,16 @@ class NaverViewModel(
     private val _naverRankList = MutableLiveData<MutableList<NaverRankModel>>()
     val naverRankList: MutableLiveData<MutableList<NaverRankModel>> = _naverRankList
 
-    //private val _moreNaverRankList = MutableLiveData<MutableList<NaverRankModel>>()
-    //val moreNaverList: MutableLiveData<MutableList<NaverRankModel>> = _moreNaverRankList
+    private val _moreNaverRankList = MutableLiveData<MutableList<NaverRankModel>>()
+    val moreNaverList: MutableLiveData<MutableList<NaverRankModel>> = _moreNaverRankList
 
     var nextKey = "0"
 
     var isInitMode = false
+    var initChecked = false
+
+    private var categoryType: String = "0"
+    private var orderType: String = "REAL_TIME"
 
     private val rankCategories = arrayOf("전체",
         "여행",
@@ -40,6 +44,10 @@ class NaverViewModel(
 
     fun getNaverRank(rankCategoryType: String, orderTime: String, rookieType: String = "ALL", isInit: Boolean = false) {
         isInitMode = isInit
+
+        categoryType = rankCategoryType
+        orderType = orderTime
+
         viewModelScope.launch {
             val response = repository.getNaverRank(rankCategoryType, orderTime, 0)
 
@@ -90,6 +98,66 @@ class NaverViewModel(
                         }
 
                         _naverRankList.postValue(rankList)
+                    } catch (e: Exception) {
+                        Log.e("CJS", "html parse error ${e.message}")
+                    }
+
+                }
+            }
+        }
+    }
+
+    fun getMoreNaverRank() {
+        viewModelScope.launch {
+            val response = repository.getNaverRank(categoryType, orderType, nextKey.toInt())
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    nextKey = it.nextFromNo
+
+                    val doc = Jsoup.parse(it.html)
+
+                    try {
+                        val element = doc.select("li")
+
+                        val rankList = mutableListOf<NaverRankModel>()
+
+                        for (e in element) {
+                            //Log.e("CJS", "data $i $e")
+
+                            // href
+                            val href = e.select("a").first()?.attr("href") ?: ""
+                            val url = "http://post.naver.com$href"
+
+                            // rank
+                            val rank = e.select("strong[class=number]").text() ?: ""
+
+                            // state, bullet, txt 변동사항
+                            val bullet =
+                                e.select("i[class=bullet]").text() ?: "" //up, down, new or empty
+                            val bulletCount =
+                                e.select("span[class=txt]").text() ?: "" // count or empty
+
+                            // title
+                            val title = e.select("span[class=ell]").text() ?: ""
+
+                            // category & writer
+                            val category = e.select("span[class=cate]").text() ?: ""
+                            val writer = e.select("span[class=writer]").text() ?: ""
+
+                            // thumbnailUrl
+                            val thumbnailUrl =
+                                e.select("div.thumb > img").first()?.attr("data-src") ?: ""
+
+                            /*Log.e("CJS",
+                                "$rank $title $bullet $bulletCount $category $writer $thumbnailUrl")*/
+
+                            rankList.add(
+                                NaverRankModel(title, category, writer, bullet, bulletCount, url, thumbnailUrl)
+                            )
+                        }
+
+                        _moreNaverRankList.postValue(rankList)
                     } catch (e: Exception) {
                         Log.e("CJS", "html parse error ${e.message}")
                     }

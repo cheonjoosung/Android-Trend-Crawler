@@ -14,5 +14,8 @@
     <!-- 설정 -->
     <string name="tab_title_setting">Settings</string>
     <string name="thumbnail">thumbnail</string>
+    <string name="real_time" translatable="false">REAL_TIME</string>
+    <string name="weekly" translatable="false">WEEKLY</string>
+    <string name="separate" translatable="false">|</string>
 
 </resources>

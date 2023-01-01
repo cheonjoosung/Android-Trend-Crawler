@@ -1,9 +1,11 @@
 package kr.co.js.trend_news.ui.naver
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import kr.co.js.trend_news.model.NaverRankModel
 import kr.co.js.trend_news.repository.NaverRepository
 import org.jsoup.Jsoup
 
@@ -11,7 +13,15 @@ class NaverViewModel(
     private val repository: NaverRepository,
 ) : ViewModel() {
 
+    private val _naverRankList = MutableLiveData<MutableList<NaverRankModel>>()
+    val naverRankList: MutableLiveData<MutableList<NaverRankModel>> = _naverRankList
+
+    //private val _moreNaverRankList = MutableLiveData<MutableList<NaverRankModel>>()
+    //val moreNaverList: MutableLiveData<MutableList<NaverRankModel>> = _moreNaverRankList
+
     var nextKey = "0"
+
+    var isInitMode = false
 
     private val rankCategories = arrayOf("전체",
         "여행",
@@ -28,7 +38,8 @@ class NaverViewModel(
 
     fun getCategoryList() = rankCategories
 
-    fun getNaverRank(rankCategoryType: String, orderTime: String, rookieType: String = "ALL") {
+    fun getNaverRank(rankCategoryType: String, orderTime: String, rookieType: String = "ALL", isInit: Boolean = false) {
+        isInitMode = isInit
         viewModelScope.launch {
             val response = repository.getNaverRank(rankCategoryType, orderTime, 0)
 
@@ -40,6 +51,8 @@ class NaverViewModel(
 
                     try {
                         val element = doc.select("li")
+
+                        val rankList = mutableListOf<NaverRankModel>()
 
                         for (e in element) {
                             //Log.e("CJS", "data $i $e")
@@ -68,9 +81,15 @@ class NaverViewModel(
                             val thumbnailUrl =
                                 e.select("div.thumb > img").first()?.attr("data-src") ?: ""
 
-                            Log.e("CJS",
-                                "$rank $title $bullet $bulletCount $category $writer $thumbnailUrl")
+                            /*Log.e("CJS",
+                                "$rank $title $bullet $bulletCount $category $writer $thumbnailUrl")*/
+
+                            rankList.add(
+                                NaverRankModel(title, category, writer, bullet, bulletCount, url, thumbnailUrl)
+                            )
                         }
+
+                        _naverRankList.postValue(rankList)
                     } catch (e: Exception) {
                         Log.e("CJS", "html parse error ${e.message}")
                     }

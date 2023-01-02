@@ -53,29 +53,29 @@ class ResponseInterceptor : Interceptor {
         }
     }
 
-    // 유니코드에서 한글로 변환
     private fun convertStringUnicodeToKorean(data: String): String {
-        // 변환할 문자를 저장할 버퍼 선언
-        val sb = StringBuffer()
-        // 글자를 하나하나 탐색한다.
+
+        val sb = StringBuilder() // 단일 쓰레드이므로 StringBuilder 선언
         var i = 0
+
+        /**
+         * \uXXXX 로 된 아스키코드 변경
+         * i+2 to i+6 을 16진수의 int 계산 후 char 타입으로 변환
+         */
         while (i < data.length) {
 
-            // 조합이 \u로 시작하면 6글자를 변환한다. \uxxxx
-            if ('\\' == data[i] && 'u' == data[i + 1]) {
-                // 그 뒤 네글자는 유니코드의 16진수 코드이다. int형으로 바꾸어서 다시 char 타입으로 강제 변환한다.
-                val r = data.substring(i + 2, i + 6).toInt(16).toChar()
-                // 변환된 글자를 버퍼에 넣는다.
-                sb.append(r)
-                // for의 증가 값 1과 5를 합해 6글자를 점프
+            if (data[i] == '\\' && data[i + 1] == 'u') {
+
+                val word = data.substring(i + 2, i + 6).toInt(16).toChar()
+                sb.append(word)
                 i += 5
             } else {
-                // ascii코드면 그대로 버퍼에 넣는다.
                 sb.append(data[i])
             }
+
             i++
         }
-        // 결과 리턴
+
         return sb.toString()
     }
 
